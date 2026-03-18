@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Premium Handmade Art Store</title>
     <style>
-        :root { --primary: #2c3e50; --accent: #27ae60; --gray: #bdc3c7; --blue: #3498db; --gold: #f39c12; }
+        :root { --primary: #2c3e50; --accent: #27ae60; --gray: #bdc3c7; --blue: #3498db; --gold: #f39c12; --telegram: #0088cc; }
         body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; padding: 0; margin: 0; color: #333; }
         
         .offer-banner { background: var(--primary); color: white; text-align: center; padding: 8px; font-size: 13px; font-weight: bold; overflow: hidden; }
@@ -34,8 +34,8 @@
         .btn-next { background: var(--primary); color: white; }
         .btn-prev { background: #eee; color: #555; }
         .btn-whatsapp { background: #25D366; color: white; }
+        .btn-telegram { background: var(--telegram); color: white; }
         
-        /* PLUS ICON UPLOAD DESIGN */
         .upload-section { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
         .plus-btn-label {
             width: 80px; height: 80px;
@@ -51,22 +51,20 @@
             background: #fafafa;
         }
         .plus-btn-label:hover { border-color: var(--accent); color: var(--accent); background: #f0fff4; }
-        #imageInput { display: none; } /* Purana button chhupa diya */
+        #imageInput { display: none; }
 
         .preview-img { width: 80px; height: 80px; object-fit: cover; border-radius: 12px; border: 1px solid #ddd; }
-
         .summary-box { background: #f9f9f9; padding: 10px; border-radius: 8px; border-left: 4px solid var(--accent); margin-bottom: 15px; font-size: 13px; }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
-        /* Floating Call Button */
         .floating-call { position: fixed; bottom: 20px; right: 20px; width: 50px; height: 50px; background: var(--blue); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); text-decoration: none; z-index: 100; }
     </style>
 </head>
 <body>
 
 <div class="offer-banner">
-    <div class="scrolling-text">🎨 10% Discount on First Custom Order! • Free Home Delivery • Order Now! 🎨</div>
+    <div class="scrolling-text">🎁 10% Discount on First Custom Order! • Free Home Delivery • Order Now! 🎁</div>
 </div>
 
 <div class="container">
@@ -106,7 +104,6 @@
             <label>Apni Photo Upload Karein (+ Icon dabayein)</label>
             <div class="upload-section">
                 <div id="previewContainer" style="display: flex; flex-wrap: wrap; gap: 10px;"></div>
-                
                 <label for="imageInput" class="plus-btn-label">+</label>
                 <input type="file" id="imageInput" accept="image/*" multiple onchange="previewImages()">
             </div>
@@ -117,6 +114,7 @@
                 <button class="btn-prev" onclick="nextStep(2)">Badle</button>
                 <button class="btn-whatsapp" onclick="sendOrder()">Order on WhatsApp</button>
             </div>
+            <button class="btn-telegram" onclick="sendTelegramOrder()">Order on Telegram</button>
         </div>
     </div>
 </div>
@@ -125,6 +123,7 @@
 
 <script>
     const myNumber = "9239394050";
+    const telegramLink = "https://t.me/y9y2y3";
 
     function nextStep(step) {
         document.querySelectorAll('.step-page').forEach(page => page.classList.remove('active'));
@@ -145,8 +144,7 @@
     function previewImages() {
         const files = document.getElementById('imageInput').files;
         const container = document.getElementById('previewContainer');
-        container.innerHTML = ''; // Purana preview hatao
-        
+        container.innerHTML = ''; 
         Array.from(files).forEach(file => {
             const reader = new FileReader();
             reader.onload = function(e) {
@@ -163,9 +161,15 @@
         const name = document.getElementById('custName').value;
         const fileCount = document.getElementById('imageInput').files.length;
         if(fileCount === 0) { alert("Kam se kam ek photo select karein!"); return; }
-        
         const message = `*NAYA ORDER!*%0A*Naam:* ${name}%0A*Photos:* ${fileCount}%0A_Maine photos attach kar di hain._`;
         window.open(`https://wa.me/${myNumber}?text=${message}`, '_blank');
+    }
+
+    function sendTelegramOrder() {
+        const name = document.getElementById('custName').value;
+        if(!name) { alert("Pehle apni details bharein!"); nextStep(1); return; }
+        // Telegram par direct message text support nahi karta link mein, isliye channel link open hoga
+        window.open(telegramLink, '_blank');
     }
 </script>
 </body>
